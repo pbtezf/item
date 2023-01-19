@@ -3,7 +3,12 @@
 @section('title', '商品一覧')
 
 @section('content_header')
-    <h1>商品一覧</h1>
+    <div>
+        <form action="{{ route('item.index') }}" method="get">
+            <input type="text"name="keyword">
+            <Input type="submit" value="検索">
+        </form>
+    </div>
 @stop
 
 @section('content')
@@ -20,7 +25,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body table-responsive p-0">
+                <div class="card-body table-bordered p-0">
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
@@ -28,6 +33,7 @@
                                 <th>名前</th>
                                 <th>種別</th>
                                 <th>詳細</th>
+                                <th>編集</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,6 +43,18 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->type }}</td>
                                     <td>{{ $item->detail }}</td>
+                                    <td>
+                                     <div >
+                                     <a href="{{ url('items/edit/'.$item->id) }}"><button type="button"class="btn btn-link">編集</button></a>
+                                     </div>
+                                     <div>
+                                       <form action="{{ url('items/delete') }}" method="POST" onsubmit="return confirm('削除します。よろしいですか？');">
+                                       @csrf
+                                       <input type="hidden" name="id" value="{{ $item->id }}">
+                                       <input type="submit" value="削除" class="btn btn-danger">
+                                       </form>                                      
+                                     </div>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

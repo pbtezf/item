@@ -33,6 +33,26 @@ class ItemController extends Controller
     }
 
     /**
+     * 商品検索
+     */
+    public function getIndex(Request $request)
+    {
+        $keyword = $request->input('keyword');
+
+        $query = Item::query();
+
+        if(!empty($keyword))
+        {
+            $query->where('name','like','%'.$keyword.'%');
+        }
+
+        $items = $query->get();
+
+        return view('item.index', compact('items'));
+
+    }
+
+    /**
      * 商品登録
      */
     public function add(Request $request)
@@ -56,5 +76,39 @@ class ItemController extends Controller
         }
 
         return view('item.add');
+    }
+
+    /**
+     * 商品編集
+     */
+    public function edit($id)
+    {
+        $item = Item::find($id);
+
+        return view('item.edit', compact('item'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $item = Item::find($id);
+        $updateItem = $item->updateItem($request, $item);
+
+        return redirect()->route('item.index');
+    }
+
+    
+
+    
+
+    /**
+     * 商品削除
+     */
+    public function delete(Request $request)
+    {
+        
+        $item = Item::find($request->id);
+        $item->delete();
+
+        return redirect('/items');
     }
 }
