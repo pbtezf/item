@@ -90,6 +90,12 @@ class ItemController extends Controller
 
     public function update(Request $request, $id)
     {
+
+         // バリデーション
+         $this->validate($request, [
+            'name' => 'required|max:100',
+        ]);
+        
         $item = Item::find($id);
         $updateItem = $item->updateItem($request, $item);
 
