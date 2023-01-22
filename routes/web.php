@@ -35,5 +35,5 @@ Route::prefix('items')->group(function () {
     Route::post('/update/{id}', [App\Http\Controllers\ItemController::class, 'update'])->name('item.update');
 
     //商品削除
-    Route::post('/delete', [App\Http\controllers\ItemController::class, 'delete']);
+    Route::post('/delete', [App\Http\Controllers\ItemController::class, 'delete']);
 });
